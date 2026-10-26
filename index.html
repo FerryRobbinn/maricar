@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="description" content="Prince Coffee — cozy neighborhood café in Bongabon. Local Barako, pan de sal, and tsokolate starting at ₱50." />
+  <title>Prince Coffee — Masarap at Sulit</title>
+
+  <link rel="icon" href="logo.png" type="image/png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ---------- Design Tokens ---------- */
+    :root {
+      --cream: #F9F6F0;
+      --beige: #EFE9DD;
+      --line: #DCD3C6;
+      --brown-dark: #2C1E16;
+      --brown: #3C281E;
+      --brown-light: #6A4A3A;
+      
+      --accent: #D4AF37; 
+      --accent-hover: #C59B27;
+      
+      --footer: #1A110D; 
+      --footer-text: #A89A8D;
+      --paper: #FFFFFF;
+
+      --serif: "Cormorant Garamond", serif;
+      --sans: "Inter", system-ui, sans-serif;
+      --handwritten: "Caveat", cursive;
+
+      --max: 1280px;
+      --gutter: 5vw;
+      
+      --shadow-sm: 0 4px 12px rgba(44, 30, 22, 0.05);
+      --shadow-md: 0 12px 32px rgba(44, 30, 22, 0.08);
+      --shadow-lg: 0 24px 48px rgba(44, 30, 22, 0.12);
+      --radius: 16px;
+    }
+
+    /* ---------- Reset & Base ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { 
+      scroll-behavior: smooth; 
+      overflow-x: hidden; /* Prevents horizontal scrolling */
+    }
+    body {
+      margin: 0;
+      background-color: var(--cream);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+      color: var(--brown);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden; /* Prevents horizontal scrolling */
+      width: 100%;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, h4 { font-family: var(--serif); font-weight: 600; margin: 0; line-height: 1.1; }
+    p { margin: 0 0 1rem 0; }
+    ul { list-style: none; margin: 0; padding: 0; }
+
+    /* ---------- Layout Helpers ---------- */
+    .wrap {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding-inline: var(--gutter);
+    }
+    .section { padding-block: 100px; }
+    
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--brown-light);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--brown-light);
+    }
+
+    /* ---------- Sticky Navigation ---------- */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(249, 246, 240, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(220, 211, 198, 0.5);
+    }
+    .nav__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80px;
+    }
+    .nav__brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      z-index: 1001;
+    }
+    
+    .nav__logo-img {
+      width: 55px; 
+      height: 55px;
+      object-fit: contain; 
+    }
+    
+    .nav__links {
+      display: flex;
+      gap: 32px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .nav__links a { transition: color 0.2s ease; }
+    .nav__links a:hover { color: var(--accent); }
+
+    /* Hamburger Menu Button */
+    .nav__toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1001;
+    }
+    .nav__toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: var(--brown-dark);
+      margin-bottom: 5px;
+      transition: transform 0.3s ease;
+    }
+    .nav__toggle span:last-child { margin-bottom: 0; }
+
+    /* ---------- Hero Section ---------- */
+    .hero {
+      position: relative;
+      padding-top: 140px;
+      padding-bottom: 80px;
+      overflow: hidden;
+    }
+    .hero__bg {
+      position: absolute;
+      top: 0; right: 0;
+      width: 55%;
+      height: 100%;
+      background-image: url("https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      z-index: -2;
+      mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+    }
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 60px;
+    }
+    
+    .hero__grid > div {
+      min-width: 0; 
+    }
+
+    .hero__title {
+      font-size: clamp(36px, 8vw, 96px); 
+      letter-spacing: -0.02em;
+      color: var(--brown-dark);
+      word-wrap: break-word;
+    }
+    .hero__sub {
+      font-family: var(--serif);
+      font-size: clamp(24px, 4vw, 48px);
+      font-weight: 500;
+      margin: 16px 0 8px;
+      color: var(--brown-light);
+    }
+    .hero__price-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .hero__price {
+      font-family: var(--serif);
+      font-size: clamp(56px, 12vw, 140px);
+      font-weight: 700;
+      line-height: 0.9;
+      color: var(--brown-dark);
+      position: relative;
+      z-index: 2;
+    }
+    .hero__price::after {
+      content: "";
+      position: absolute;
+      left: 0; 
+      bottom: 15%;
+      width: 100%; 
+      height: 30%;
+      background-color: var(--accent);
+      z-index: -1;
+      transform: rotate(-2deg);
+      border-radius: 4px;
+      opacity: 0.8;
+    }
+    .hero__handwritten {
+      font-family: var(--handwritten);
+      font-size: 24px;
+      color: var(--brown);
+      position: absolute;
+      right: 0;
+      top: -25px;
+      transform: rotate(10deg);
+    }
+    .hero__storefront {
+      width: 100%;
+      max-width: 100%;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      border: 6px solid var(--paper);
+      transform: rotate(2deg);
+      transition: transform 0.4s ease;
+    }
+
+    /* ---------- Menu Section ---------- */
+    .menu { background: var(--beige); }
+    .menu__header {
+      text-align: center;
+      margin-bottom: 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .menu__header .eyebrow::before { display: none; }
+    .menu__header h2 {
+      font-size: clamp(36px, 6vw, 72px);
+      color: var(--brown-dark);
+      margin-bottom: 16px;
+    }
+    .menu__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+    .menu__category { margin-bottom: 40px; }
+    .menu__category h3 {
+      font-size: 32px;
+      color: var(--brown-dark);
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .menu__list li {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 12px 0;
+      font-size: 18px;
+      border-radius: 8px;
+      transition: background-color 0.2s ease, padding-left 0.2s ease;
+      cursor: pointer; 
+      position: relative;
+    }
+    .menu__list li:hover, .menu__list li.active {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    .menu__dots {
+      flex: 1;
+      border-bottom: 2px dotted rgba(106, 74, 58, 0.3);
+      margin: 0 16px;
+      transform: translateY(-4px);
+    }
+    .menu__price {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--brown-dark);
+    }
+
+    /* ---------- Interactive Image Preview Tooltip ---------- */
+    .image-preview {
+      position: fixed;
+      pointer-events: none;
+      width: 220px;
+      height: 160px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: scale(0.95) translateY(10px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 2000;
+      border: 3px solid var(--paper);
+      background: var(--paper);
+      /* Center by default for touch devices */
+      left: 50%;
+      top: 50%;
+      margin-left: -110px;
+      margin-top: -80px;
+    }
+    .image-preview.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ---------- Story & Owner Section ---------- */
+    .story {
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+    .story__blob {
+      position: absolute;
+      top: 10%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: var(--beige);
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      z-index: 0;
+    }
+    .story__grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .story__content h2 {
+      font-size: clamp(36px, 5vw, 64px);
+      color: var(--brown-dark);
+      margin-bottom: 24px;
+    }
+    .story__content p {
+      font-size: 16px;
+      color: var(--brown);
+      margin-bottom: 20px;
+    }
+    .story__image-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .story__image {
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      z-index: 2;
+    }
+    .story__image-wrap::before {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 4/5;
+      border: 2px solid var(--accent); 
+      border-radius: 24px;
+      z-index: 1;
+    }
+    .story__signature {
+      font-family: var(--handwritten);
+      font-size: 36px;
+      color: var(--brown-light);
+      margin-top: 16px;
+      display: block;
+    }
+
+    /* ---------- Best Sellers ---------- */
+    .best { background: var(--beige); }
+    .best__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .best__card {
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .best__card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+      background: var(--cream);
+    }
+    .best__card h3 {
+      font-size: 28px;
+      color: var(--brown-dark);
+    }
+    .best__card p {
+      font-size: 14px;
+      color: var(--brown-light);
+      margin: 0;
+    }
+
+    /* ---------- Contact Section ---------- */
+    .contact {
+      background: var(--brown-dark);
+      color: var(--cream);
+      border-radius: 40px 40px 0 0;
+      padding-block: 80px;
+    }
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+    .contact__info h2 {
+      font-size: clamp(36px, 5vw, 64px);
+      color: var(--cream);
+      margin-bottom: 24px;
+    }
+    .contact__info p {
+      color: var(--footer-text);
+      font-size: 16px;
+      max-width: 40ch;
+    }
+    
+    .contact__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 40px;
+      padding: 8px 24px 8px 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50px;
+      font-size: 14px;
+    }
+    
+    .contact__badge img {
+      width: 55px;
+      height: 55px;
+      object-fit: contain;
+    }
+    
+    .contact__badge span {
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    .contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .field label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--footer-text);
+    }
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 16px;
+      outline: none;
+    }
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .field textarea { resize: vertical; min-height: 120px; }
+    
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 18px 32px;
+      background: var(--accent);
+      color: var(--brown-dark);
+      border: none;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s;
+      margin-top: 8px;
+    }
+    .btn-submit:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      background: var(--footer);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden; 
+    }
+    
+    .footer__watermark {
+      position: absolute;
+      bottom: -5%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--serif);
+      font-size: clamp(120px, 25vw, 350px);
+      font-weight: 700;
+      line-height: 0.8;
+      color: var(--cream);
+      opacity: 0.03; 
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .footer__inner {
+      position: relative;
+      z-index: 1;
+      padding-block: 60px 30px;
+    }
+
+    .footer__top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.5fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer__brand {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .footer__logo {
+      width: 160px;
+      height: auto;
+      object-fit: contain; 
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+    }
+
+    .footer__desc { color: var(--footer-text); font-size: 15px; line-height: 1.6; max-width: 300px; }
+    .footer h4 { font-family: var(--sans); font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 24px; }
+
+    .footer__links { display: flex; flex-direction: column; gap: 12px; }
+    .footer__links a { color: var(--footer-text); font-size: 15px; transition: color 0.2s ease; }
+    .footer__links a:hover { color: var(--cream); }
+
+    .footer__contact { display: flex; flex-direction: column; gap: 16px; color: var(--footer-text); font-size: 15px; }
+    .footer__email { display: inline-flex; align-items: center; gap: 8px; color: var(--cream); font-weight: 500; font-size: 16px; transition: color 0.2s ease; word-break: break-all; }
+    .footer__email:hover { color: var(--accent); }
+    .footer__email svg { width: 16px; height: 16px; stroke: var(--accent); flex-shrink: 0; }
+
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 12px;
+      color: var(--footer-text);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer__bottom a { color: var(--footer-text); transition: color 0.2s ease; }
+    .footer__bottom a:hover { color: var(--accent); }
+    .back-to-top { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+
+    /* =========================================
+       TABLET & MOBILE RESPONSIVENESS
+       ========================================= */
+    @media (max-width: 1024px) {
+      .hero__grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+      .hero__bg { width: 100%; mask-image: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%); }
+      .hero__storefront { max-width: 500px; margin: 0 auto; transform: rotate(0); }
+      .hero__price::after { left: 0; width: 100%; }
+      .eyebrow { justify-content: center; }
+      
+      .menu__grid { grid-template-columns: 1fr; gap: 40px; }
+      .story__grid { grid-template-columns: 1fr; gap: 48px; }
+      .story__image-wrap { order: -1; }
+      .best__grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      .contact__grid { grid-template-columns: 1fr; gap: 48px; }
+      
+      .footer__top { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .footer__brand { grid-column: 1 / -1; } 
+    }
+
+    @media (max-width: 768px) {
+      /* Mobile Nav */
+      .nav__inner { height: 70px; }
+      .nav__toggle { display: block; }
+      .nav__links {
+        position: absolute;
+        top: 70px; left: 0; right: 0;
+        background: var(--cream);
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 0;
+        gap: 20px;
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        transform: translateY(-150%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+      }
+      .nav__links.active { transform: translateY(0); }
+      .nav__logo-img { width: 45px; height: 45px; }
+
+      /* Layout adjustments */
+      .section { padding-block: 60px; }
+      .hero { padding-top: 110px; padding-bottom: 60px; }
+      
+      /* Scales down font sizes for mobile */
+      .hero__title { font-size: 38px; }
+      .hero__sub { font-size: 26px; }
+      .hero__price { font-size: 68px; }
+      .hero__handwritten { font-size: 20px; right: 0; top: -20px; }
+      .hero__storefront { border-width: 4px; }
+      
+      /* Menu adjustments */
+      .menu__category h3 { font-size: 26px; }
+      .menu__list li { font-size: 16px; padding: 16px 0; flex-wrap: wrap; }
+      .menu__dots { display: none; } 
+      .menu__price { margin-left: auto; font-size: 20px; }
+      
+      /* Form & Contact */
+      .form__row { grid-template-columns: 1fr; }
+      .contact { border-radius: 24px 24px 0 0; padding-block: 48px; }
+      
+      /* Interactive Preview */
+      .image-preview { width: 260px; height: 180px; margin-left: -130px; margin-top: -90px; }
+      
+      /* Footer */
+      .footer__top { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .footer__brand { align-items: center; }
+      .footer__links { align-items: center; }
+      .footer__contact { align-items: center; }
+      .footer__bottom { flex-direction: column; justify-content: center; text-align: center; gap: 12px; }
+      .footer__logo { width: 120px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sticky Navigation -->
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a href="#" class="nav__brand">
+        <img src="logo.png" alt="Prince Coffee Logo" class="nav__logo-img" onerror="this.style.display='none'">
+        <span>Prince Coffee.</span>
+      </a>
+      
+      <!-- Hamburger Button -->
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav__links" id="navLinks">
+        <a href="#menu">Menu</a>
+        <a href="#story">Our Story</a>
+        <a href="#contact">Get in Touch</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero__bg"></div>
+    <div class="wrap hero__grid">
+      <div class="hero__content">
+        <p class="eyebrow">Bongabon · Filipino Comfort Café</p>
+        <h1 class="hero__title">Masarap at sulit.</h1>
+        <p class="hero__sub">Low price at</p>
+        
+        <div class="hero__price-wrap">
+          <span class="hero__handwritten">Simula sa</span>
+          <div class="hero__price">50 pesos</div>
+        </div>
+
+        <div style="margin-top: 32px;">
+          <a href="#menu" class="btn-submit" style="background: var(--brown-dark); color: var(--cream); width: auto;">
+            See the Menu
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      
+      <div>
+        <img class="hero__storefront" src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=800&auto=format&fit=crop" alt="Cozy cafe storefront" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu Section -->
+  <section id="menu" class="menu section">
+    <div class="wrap">
+      <div class="menu__header">
+        <p class="eyebrow">What we serve</p>
+        <h2>Our Menu</h2>
+        <p style="max-width: 500px; color: var(--brown-light);">Local beans, warm bread, and slow moments. Tap or hover on an item to see it!</p>
+      </div>
+
+      <div class="menu__grid">
+        <div>
+          <div class="menu__category">
+            <h3>Kape</h3>
+            <ul class="menu__list">
+              <li data-img="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=400&auto=format&fit=crop"><span class="name">Barako Brew (Black)</span><span class="menu__dots"></span><span class="menu__price">₱50</span></li>
+              <li data-img="https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=400&auto=format&fit=crop"><span class="name">Kape con Leche</span><span class="menu__dots"></span><span class="menu__price">₱65</span></li>
+              <li data-img="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&auto=format&fit=crop"><span class="name">Prince Spanish Latte</span><span class="menu__dots"></span><span class="menu__price">₱85</span></li>
+              <li data-img="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=400&auto=format&fit=crop"><span class="name">Ube Latte</span><span class="menu__dots"></span><span class="menu__price">₱95</span></li>
+              <li data-img="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?q=80&w=400&auto=format&fit=crop"><span class="name">Tablea Mocha</span><span class="menu__dots"></span><span class="menu__price">₱90</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div class="menu__category">
+            <h3>Palamig & Meryenda</h3>
+            <ul class="menu__list">
+              <li data-img="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?q=80&w=400&auto=format&fit=crop"><span class="name">Tsokolate de Batirol</span><span class="menu__dots"></span><span class="menu__price">₱70</span></li>
+              <li data-img="https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=400&auto=format&fit=crop"><span class="name">Sago't Gulaman Latte</span><span class="menu__dots"></span><span class="menu__price">₱75</span></li>
+              <li data-img="https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?q=80&w=400&auto=format&fit=crop"><span class="name">Avocado Cream Chill</span><span class="menu__dots"></span><span class="menu__price">₱90</span></li>
+              <li data-img="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=400&auto=format&fit=crop"><span class="name">Pan de Sal with Kesong Puti</span><span class="menu__dots"></span><span class="menu__price">₱50</span></li>
+              <li data-img="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?q=80&w=400&auto=format&fit=crop"><span class="name">Ube Cheese Pandesal</span><span class="menu__dots"></span><span class="menu__price">₱55</span></li>
+              <li data-img="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=400&auto=format&fit=crop"><span class="name">Classic Enaymada</span><span class="menu__dots"></span><span class="menu__price">₱60</span></li>
+              <li data-img="https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=400&auto=format&fit=crop"><span class="name">Bibingka Cheesecake</span><span class="menu__dots"></span><span class="menu__price">₱85</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section id="story" class="story section">
+    <div class="story__blob"></div>
+    <div class="wrap story__grid">
+      <div class="story__content">
+        <p class="eyebrow">Meet the Owner</p>
+        <h2>Bongabon,<br>let's share a cup.</h2>
+        <p>Growing up in the province of Bongabon, I always loved the rich aroma of coffee beans. But after spending years working and studying in the city — where coffee was often expensive — <em>hindi masarap</em> and it lost its comforting feeling.</p>
+        <p>More than anything, I wanted to create a cozy neighborhood space named after my beloved cartoon, Sofia the First, and my favorite character, Prince James — naming the shop <strong>Prince</strong>.</p>
+        <p>My mission was simple: bridge the gap between aesthetic café culture and accessible, authentic Filipino comfort. I opened Prince Coffee to prove that a great cup of local Barako, a warm pan de sal, or a creamy tsokolate didn't have to cost a lot.</p>
+        
+        <span class="story__signature">- Maricar</span>
+      </div>
+
+      <div class="story__image-wrap">
+        <img class="story__image" src="maricar.jpg" alt="Maricar, owner of Prince Coffee" onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=600&auto=format&fit=crop';" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Best Sellers -->
+  <section class="best section">
+    <div class="wrap">
+      <div class="menu__header">
+        <p class="eyebrow">Loved by the neighborhood</p>
+        <h2>Best Selling</h2>
+      </div>
+
+      <div class="best__grid">
+        <article class="best__card">
+          <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=400&auto=format&fit=crop" alt="Bibingka Cheesecake" loading="lazy" />
+          <h3>Bibingka Cheesecake</h3>
+          <p>Rice cake meets cheesecake. Baked fresh, best with warm tsokolate.</p>
+        </article>
+
+        <article class="best__card">
+          <img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?q=80&w=400&auto=format&fit=crop" alt="Tsokolate de Batirol" loading="lazy" />
+          <h3>Tsokolate de Batirol</h3>
+          <p>Tablea whisked the old way. Rich, foamy, and made for slow sips.</p>
+        </article>
+
+        <article class="best__card">
+          <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=400&auto=format&fit=crop" alt="Ube Latte" loading="lazy" />
+          <h3>Ube Latte</h3>
+          <p>Sweet ube folded into espresso and milk. Our most photographed cup.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="wrap contact__grid">
+      <div class="contact__info">
+        <p class="eyebrow" style="color: var(--footer-text);">Get in touch</p>
+        <h2>Say hello to Maricar.</h2>
+        <p>A question, a hello, or a little coffee curiosity — drop a note and we'll reply as soon as the kettle's quiet.</p>
+        
+        <div class="contact__badge">
+          <img src="logo.png" alt="Prince Coffee Logo" onerror="this.style.display='none'">
+          <span>Prince Coffee · Bongabon</span>
+        </div>
+      </div>
+
+      <form action="/contact" method="POST">
+        <div class="form__row">
+          <div class="field">
+            <label for="name">Your Name</label>
+            <input id="name" name="name" type="text" placeholder="How should we call you?" required />
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="Where can we reply?" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="message">Your Message</label>
+          <textarea id="message" name="message" placeholder="A question, a hello, or a little coffee curiosity…" required></textarea>
+        </div>
+
+        <button class="btn-submit" type="submit">
+          Send a Note
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__watermark">Prince</div>
+    
+    <div class="wrap footer__inner">
+      <div class="footer__top">
+        
+        <div class="footer__brand">
+          <img src="logo.png" alt="Prince Coffee Logo" class="footer__logo" onerror="this.style.display='none'">
+          <p class="footer__desc">
+            Cozy neighborhood café in Bongabon. Local beans, warm bread, and slow moments — starting at ₱50.
+          </p>
+        </div>
+
+        <div>
+          <h4>Explore</h4>
+          <div class="footer__links">
+            <a href="#menu">Our Menu</a>
+            <a href="#story">Meet Maricar</a>
+            <a href="#contact">Get in Touch</a>
+            <a href="#">Back to top</a>
+          </div>
+        </div>
+
+        <div>
+          <h4>Contact</h4>
+          <div class="footer__contact">
+            <p style="margin:0;">Owned by Maricar</p>
+            <p style="margin:0;">Bongabon, Nueva Ecija</p>
+            <a href="mailto:maricarterrado3@gmail.com" class="footer__email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              maricarterrado3@gmail.com
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <span>&copy; 2024 Prince Coffee. All rights reserved.</span>
+        <span>Made for slow sips & simple moments.</span>
+        <a href="#" class="back-to-top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Image Preview Element -->
+  <div class="image-preview" id="imagePreview">
+    <img src="" alt="Menu item preview" id="previewImg" />
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      /* --- 1. Mobile Navigation Toggle --- */
+      const navToggle = document.getElementById('navToggle');
+      const navLinks = document.getElementById('navLinks');
+
+      navToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+        });
+      });
+
+      /* --- 2. Interactive Menu Image Preview --- */
+      const menuItems = document.querySelectorAll('.menu__list li');
+      const previewBox = document.getElementById('imagePreview');
+      const previewImg = document.getElementById('previewImg');
+      
+      const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
+      const movePreview = (e) => {
+        if (isTouchDevice) return; 
+        
+        const x = e.clientX + 20; 
+        const y = e.clientY + 20;
+        
+        const maxX = window.innerWidth - 240;
+        const maxY = window.innerHeight - 180;
+
+        previewBox.style.left = `${Math.min(x, maxX)}px`;
+        previewBox.style.top = `${Math.min(y, maxY)}px`;
+      };
+
+      menuItems.forEach(item => {
+        const imgUrl = item.getAttribute('data-img');
+
+        if (!isTouchDevice) {
+          item.addEventListener('mouseenter', (e) => {
+            if (imgUrl) {
+              previewImg.src = imgUrl;
+              previewBox.classList.add('active');
+              movePreview(e);
+            }
+          });
+
+          item.addEventListener('mousemove', (e) => {
+            if (imgUrl && previewBox.classList.contains('active')) {
+              movePreview(e);
+            }
+          });
+
+          item.addEventListener('mouseleave', () => {
+            previewBox.classList.remove('active');
+            item.classList.remove('active');
+          });
+        }
+
+        item.addEventListener('click', (e) => {
+          e.stopPropagation(); 
+          
+          if (imgUrl) {
+            const isActive = item.classList.contains('active');
+            
+            menuItems.forEach(i => i.classList.remove('active'));
+            previewBox.classList.remove('active');
+
+            if (!isActive) {
+              item.classList.add('active');
+              previewImg.src = imgUrl;
+              previewBox.classList.add('active');
+              movePreview(e);
+            }
+          }
+        });
+      });
+
+      document.addEventListener('click', () => {
+        previewBox.classList.remove('active');
+        menuItems.forEach(i => i.classList.remove('active'));
+      });
+    });
+  </script>
+</body>
+</html>
